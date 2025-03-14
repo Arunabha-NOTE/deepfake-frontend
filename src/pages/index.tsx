@@ -1,59 +1,48 @@
-import { Link } from "@heroui/link";
 import { Snippet } from "@heroui/snippet";
 import { Code } from "@heroui/code";
-import { button as buttonStyles } from "@heroui/theme";
+import {Card, CardBody} from "@heroui/card";
 
-import { siteConfig } from "@/config/site";
+
+
+
 import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+
 import DefaultLayout from "@/layouts/default";
+import FileUpload from "@/components/fileupload.tsx";
 
 export default function IndexPage() {
+  const handleFileSelect = (file: File) => {
+    // Process the file (e.g., upload to a server)
+    console.log("Selected file:", file);
+  };
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="inline-block max-w-lg text-center justify-center">
-          <span className={title()}>Make&nbsp;</span>
-          <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
+          <span className={title()}>Deepfake&nbsp;</span>
+          <span className={title({ color: "violet" })}>Detector&nbsp;</span>
           <br />
           <span className={title()}>
-            websites regardless of your design experience.
+            website
           </span>
           <div className={subtitle({ class: "mt-4" })}>
             Beautiful, fast and modern React UI library.
           </div>
         </div>
-
-        <div className="flex gap-3">
-          <Link
-            isExternal
-            className={buttonStyles({
-              color: "primary",
-              radius: "full",
-              variant: "shadow",
-            })}
-            href={siteConfig.links.docs}
-          >
-            Documentation
-          </Link>
-          <Link
-            isExternal
-            className={buttonStyles({ variant: "bordered", radius: "full" })}
-            href={siteConfig.links.github}
-          >
-            <GithubIcon size={20} />
-            GitHub
-          </Link>
-        </div>
-
-        <div className="mt-8">
+        <div className="my-8">
           <Snippet hideCopyButton hideSymbol variant="bordered">
             <span>
-              Get started by editing{" "}
-              <Code color="primary">pages/index.tsx</Code>
+              Get started by uploading{" "}
+              <Code color="primary">the video</Code> below
             </span>
           </Snippet>
+
         </div>
+        <Card className='w-72'>
+          <CardBody>
+            <FileUpload onFileSelect={handleFileSelect} />
+          </CardBody>
+        </Card>
       </section>
     </DefaultLayout>
   );
