@@ -1,6 +1,6 @@
 import { Snippet } from "@heroui/snippet";
 import { Code } from "@heroui/code";
-import {Card, CardBody} from "@heroui/card";
+
 
 
 
@@ -38,11 +38,8 @@ export default function IndexPage() {
           </Snippet>
 
         </div>
-        <Card className='w-72'>
-          <CardBody>
-            <FileUpload onFileSelect={handleFileSelect} />
-          </CardBody>
-        </Card>
+
+        <FileUpload onFileSelect={handleFileSelect} />
       </section>
     </DefaultLayout>
   );
