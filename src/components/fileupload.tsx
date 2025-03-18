@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardBody } from "@heroui/card";
+import UploadModal from "./../components/uploadmodal.tsx";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -8,6 +9,9 @@ interface FileUploadProps {
 const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // @ts-ignore
+  const [uploadResult, setUploadResult] = useState<number | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -84,6 +88,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
         >
           {uploading ? "Uploading..." : "Upload"}
         </button>
+        {isModalOpen && (
+          <UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} result={uploadResult} />
+        )}
       </div>
     </>
   )

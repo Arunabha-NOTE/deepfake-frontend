@@ -26,7 +26,7 @@ export default function IndexPage() {
             website
           </span>
           <div className={subtitle({ class: "mt-4" })}>
-            Beautiful, fast and modern React UI library.
+            Check if a video is real or fake.
           </div>
         </div>
         <div className="my-8">
