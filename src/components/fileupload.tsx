@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Card, CardBody } from "@heroui/card";
 import UploadModal from "./../components/uploadmodal.tsx";
 
@@ -10,8 +10,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // @ts-ignore
   const [uploadResult, setUploadResult] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // Add a ref for the file input
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -38,30 +39,33 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
     try {
       const response = await fetch("http://localhost:8000/upload/", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       const result = await response.json();
       if (response.ok) {
-        alert(`Upload successful: ${result.filename}`);
+        setUploadResult(result.filename); // Save the filename for further use
+        setIsModalOpen(true); // Open the modal
       } else {
-        alert(`Upload failed: ${result.error}`);
+        alert(`Upload failed: ${result.message || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("An error occurred while uploading the file.");
     } finally {
       setUploading(false);
-      setSelectedFile(null);
+      setSelectedFile(null); // Clear the selected file
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Reset the file input value
+      }
     }
   };
 
-
   return (
     <>
-      <Card className='w-72'>
+      <Card className="w-72">
         <CardBody>
-          <div className="p-4 ">
+          <div className="p-4">
             <label className="block text-center cursor-pointer">
               {selectedFile ? (
                 <span className="text-gray-700">{selectedFile.name}</span>
@@ -73,9 +77,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
                 accept="video/mp4"
                 onChange={handleFileChange}
                 className="hidden"
+                ref={fileInputRef} // Attach the ref to the input
               />
             </label>
-
           </div>
         </CardBody>
       </Card>
@@ -93,8 +97,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
         )}
       </div>
     </>
-  )
-    ;
+  );
 };
 
 export default FileUpload;
