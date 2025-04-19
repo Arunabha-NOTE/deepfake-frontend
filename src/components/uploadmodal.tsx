@@ -46,18 +46,18 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, result }) =>
         {loading ? (
           <div className="flex flex-col items-center">
             <Spinner />
-            <p className="text-gray-700 mt-2">Fetching prediction...</p>
+            <p className=" mt-2">Fetching prediction...</p>
           </div>
         ) : (
           <div>
             <h2 className="text-xl font-bold">Prediction Result</h2>
             {prediction ? (
-              <p className="text-gray-700 mt-2">
+              <p className=" mt-2">
                 Prediction: <span className="font-semibold">{prediction}</span>
               </p>
             ) : null}
             {confidence ? (
-              <p className="text-gray-700 mt-2">
+              <p className=" mt-2">
                 Confidence: <span className="font-semibold">{confidence}</span>
               </p>
             ) : null}
